@@ -1,0 +1,6 @@
+applications:
+      - name: SustentateMiddleware
+        random-route: true
+        path: target/middleware-1.0-SNAPSHOT.jar
+        memory: 512M
+        instances: 1

@@ -29,18 +29,22 @@ public class ClassificationController {
         // Converts the image insisde the payload into a InputStream
         byte[] imageContents = Base64.decodeBase64(classificationRequest.getEncodedImage());
 
-        File tempFile = File.createTempFile("watson", ".tmp");
+        File tempFile = File.createTempFile("watson", ".jpeg");
         OutputStream outputStream = new FileOutputStream(tempFile);
         outputStream.write(imageContents);
         outputStream.close();
 
-        VisualRecognitionResult results = visualRecognitionManager.recognize(tempFile);
-
-        objectStorageManager.saveImage(tempFile);
-
-        cloudantManager.saveData(results, tempFile);
-
-        // Trigger an image classification
-        return  results;
+        try {
+            VisualRecognitionResult results = visualRecognitionManager.recognize(tempFile);
+            objectStorageManager.saveImage(tempFile);
+            cloudantManager.saveData(results, tempFile, classificationRequest);
+            return results;
+        }
+        catch (Exception e) {
+            return null;
+        }
+        finally {
+            tempFile.delete();
+        }
     }
 }

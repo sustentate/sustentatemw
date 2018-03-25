@@ -1,9 +1,15 @@
 package ar.com.sustentate.mw.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.HashMap;
+
 public class VisualRecognitionResult {
     private int errorCode;
     private String errorDesc;
     private int recognitionResult;
+    @JsonIgnore
+    private HashMap<String, Float> rates;
 
     public int getRecognitionResult() {
         return recognitionResult;
@@ -27,5 +33,13 @@ public class VisualRecognitionResult {
 
     public void setErrorDesc(String errorDesc) {
         this.errorDesc = errorDesc;
+    }
+
+    public HashMap<String, Float> getRates() {
+        return rates;
+    }
+
+    public void setRates(HashMap<String, Float> rates) {
+        this.rates = rates;
     }
 }

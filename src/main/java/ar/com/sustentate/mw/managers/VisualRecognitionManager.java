@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -47,7 +48,9 @@ public class VisualRecognitionManager {
 
         Float recScore = 0f;
         Float noRecScore = 0f;
+        HashMap<String, Float> rates = new HashMap<>();
         for(ClassResult classResult : classResults) {
+            rates.put(classResult.getClassName(), classResult.getScore());
             if (classResult.getClassName().endsWith("_rec")) {
                 if (recScore < classResult.getScore())
                     recScore = classResult.getScore();
@@ -58,6 +61,7 @@ public class VisualRecognitionManager {
                 }
             }
         }
+        recognitionResult.setRates(rates);
 
         if (recScore > noRecScore)
             recognitionResult.setRecognitionResult(1);

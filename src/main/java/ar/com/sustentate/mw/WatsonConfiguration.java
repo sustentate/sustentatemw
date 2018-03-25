@@ -42,9 +42,6 @@ public class WatsonConfiguration {
     @Value("${ibm.watson.cloudant.password}")
     private String cloudantPassword;
 
-    @Value("${ibm.watson.cloudant.server}")
-    private String cloudantServer;
-
     @Bean
     public VisualRecognition visualRecognition() {
         VisualRecognition visualRecognition = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);

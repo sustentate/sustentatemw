@@ -13,23 +13,22 @@ import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
+import java.net.*;
 
 @Configuration
 public class WatsonConfiguration {
 
     @Value("${ibm.es.url}")
     private String elasticSearchUrl;
+
+    @Value("${ibm.es.host}")
+    private String elasticSearchHost;
 
     @Value("${ibm.watson.visualrecognition.key}")
     private String watsonApiKey;
@@ -91,7 +90,7 @@ public class WatsonConfiguration {
     @Bean
     public TransportClient createElasticSearchClient() throws UnknownHostException {
         TransportClient client = new PreBuiltTransportClient(Settings.EMPTY)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(elasticSearchUrl), 9300));
+                .addTransportAddress(new TransportAddress(InetAddress.getByName(elasticSearchHost), 41997));
         return client;
     }
 }

@@ -50,11 +50,17 @@ public class CloudantManager {
         data.put("rates", results.getRates());
         data.put("timestamp", DateTime.now().toString());
         db.post(data);
+
     }
 
     public void saveElemento(ElementosResponse elementosResponse) {
         Database db = client.database("elementos", true);
         Map<String, Object> data = new HashMap<>();
+        data.put("_id", String.valueOf(System.currentTimeMillis()));
+        data.put("producto", elementosResponse.getProducto() );
+        data.put("condicion", elementosResponse.getCondicion() );
+        data.put("comoHacerlo", elementosResponse.getComoHacerlo());
+        data.put("finalDate", elementosResponse.getFinalDate());
         db.post(data);
     }
 

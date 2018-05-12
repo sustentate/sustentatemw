@@ -9,22 +9,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 public class ElementosController {
     @Autowired
-    private ElasticSearchManager elasticSearchManager;
+    private CloudantManager cloudantManager;
 
     @Autowired
-    private CloudantManager cloudantManager;
+    private ElasticSearchManager elasticSearchManager;
 
     @RequestMapping("/elementos")
     public @ResponseBody
-    List<ElementosResponse> buscarElementos(@RequestParam(name="criterio", required = true) String criterio) {
+    List<ElementosResponse> buscarElementos(@RequestParam(name = "criterio", required = true) String criterio) {
         //TODO: Utilizar la clase elementos
-       List<ElementosResponse> elementos = new ArrayList<>();
-       return elementos;
+        List<ElementosResponse> elementos = new ArrayList<>();
+        return elementos;
     }
 
     @RequestMapping(value = "/elementos/sync", method = RequestMethod.POST)
@@ -35,4 +36,21 @@ public class ElementosController {
         response.setStatus("OK");
         return response;
     }
+
+    @RequestMapping ("/prueba")
+
+    public
+            void Prueba ()
+    {
+        ElementosResponse elementosResponse = new ElementosResponse();
+        elementosResponse.setId(1);
+        elementosResponse.setProducto("Aceite mineral usado");
+        elementosResponse.setCondicon("Manejo especial");
+        elementosResponse.setComoHacerlo("Depositá el aceite mineral usado en algún envase, recordá que debe estar frío si no se derretirá la botella.");
+        elementosResponse.setFinalDate(new Date (2018,05,12));
+        cloudantManager.saveElemento(elementosResponse);
+
+    }
+
+
 }

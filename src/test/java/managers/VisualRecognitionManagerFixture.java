@@ -9,7 +9,6 @@ import com.ibm.watson.developer_cloud.http.ServiceCall;
 import com.ibm.watson.developer_cloud.http.ServiceCallback;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.*;
-import jdk.internal.org.objectweb.asm.ClassReader;
 import jersey.repackaged.jsr166e.CompletableFuture;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -27,7 +26,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 

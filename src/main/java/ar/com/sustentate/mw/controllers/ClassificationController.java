@@ -37,7 +37,7 @@ public class ClassificationController {
         try {
             VisualRecognitionResult results = visualRecognitionManager.recognize(tempFile);
             objectStorageManager.saveImage(tempFile);
-            cloudantManager.saveData(results, tempFile, classificationRequest);
+            cloudantManager.saveRecognitionData(results, tempFile, classificationRequest);
             return results;
         }
         catch (Exception e) {

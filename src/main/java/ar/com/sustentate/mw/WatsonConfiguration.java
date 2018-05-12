@@ -11,24 +11,36 @@ import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.TransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.net.*;
+import java.util.Collections;
 
 @Configuration
 public class WatsonConfiguration {
 
-    @Value("${ibm.es.url}")
-    private String elasticSearchUrl;
-
     @Value("${ibm.es.host}")
     private String elasticSearchHost;
+
+    @Value("${ibm.es.user}")
+    private String elasticSearchUser;
+
+    @Value("${ibm.es.pass}")
+    private String elasticSearchPassword;
+
+    @Value("${ibm.es.port}")
+    private String elasticSearchPort;
 
     @Value("${ibm.watson.visualrecognition.key}")
     private String watsonApiKey;
@@ -88,9 +100,22 @@ public class WatsonConfiguration {
     }
 
     @Bean
-    public TransportClient createElasticSearchClient() throws UnknownHostException {
-        TransportClient client = new PreBuiltTransportClient(Settings.EMPTY)
-                .addTransportAddress(new TransportAddress(InetAddress.getByName(elasticSearchHost), 41997));
+    public RestHighLevelClient createElasticSearchClient()  {
+
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(elasticSearchUser, elasticSearchPassword));
+
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost(elasticSearchHost, Integer.parseInt(elasticSearchPort), "https"))
+                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                    }
+                }));
+
         return client;
     }
 }

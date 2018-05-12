@@ -4,7 +4,9 @@ import ar.com.sustentate.mw.managers.CloudantManager;
 import ar.com.sustentate.mw.managers.ElasticSearchManager;
 import ar.com.sustentate.mw.models.ElementosResponse;
 import ar.com.sustentate.mw.models.OperationResponse;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.standard.Jsr310DateTimeFormatAnnotationFormatterFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,6 +27,13 @@ public class ElementosController {
     List<ElementosResponse> buscarElementos(@RequestParam(name = "criterio", required = true) String criterio) {
         //TODO: Utilizar la clase elementos
         List<ElementosResponse> elementos = new ArrayList<>();
+        ElementosResponse elemento = new ElementosResponse();
+        elemento.setComoHacerlo("Con ganas");
+        elemento.setCondicon("Reciclable");
+        elemento.setFinalDate(DateTime.now().toDate());
+        elemento.setId(1);
+        elemento.setProducto("Latas");
+        elementos.add(elemento);
         return elementos;
     }
 

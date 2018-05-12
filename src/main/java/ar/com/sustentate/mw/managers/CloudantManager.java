@@ -1,9 +1,6 @@
 package ar.com.sustentate.mw.managers;
 
-import ar.com.sustentate.mw.models.ClassificationRequest;
-import ar.com.sustentate.mw.models.EcoTipResponse;
-import ar.com.sustentate.mw.models.EventoResponse;
-import ar.com.sustentate.mw.models.VisualRecognitionResult;
+import ar.com.sustentate.mw.models.*;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.Database;
 import com.cloudant.client.api.views.AllDocsRequest;
@@ -52,6 +49,12 @@ public class CloudantManager {
         data.put("result", results.getRecognitionResult());
         data.put("rates", results.getRates());
         data.put("timestamp", DateTime.now().toString());
+        db.post(data);
+    }
+
+    public void saveElemento(ElementosResponse elementosResponse) {
+        Database db = client.database("elementos", true);
+        Map<String, Object> data = new HashMap<>();
         db.post(data);
     }
 

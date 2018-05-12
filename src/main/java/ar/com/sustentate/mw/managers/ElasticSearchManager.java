@@ -1,0 +1,12 @@
+package ar.com.sustentate.mw.managers;
+
+import org.elasticsearch.client.transport.TransportClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ElasticSearchManager {
+    @Autowired
+    private TransportClient elasticSearchClient;
+
+}

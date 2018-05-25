@@ -1,8 +1,5 @@
 package ar.com.sustentate.mw.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
-import org.joda.time.DateTime;
 
 import java.util.Date;
 
@@ -10,10 +7,11 @@ public class EventoResponse {
     private String text;
     private String title;
     private String imageUrl;
-    private DateTime date;
-    private DateTime dateEnd;
+    private Date date;
+    private Date dateEnd;
     private long _id;
     private String place;
+    private String googleId;
 
     public String getText() {
         return text;
@@ -39,11 +37,11 @@ public class EventoResponse {
         this.imageUrl = imageUrl;
     }
 
-    public DateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(DateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -55,11 +53,11 @@ public class EventoResponse {
         this._id = id;
     }
 
-    public DateTime getDateEnd() {
+    public Date getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(DateTime dateEnd) {
+    public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
     }
 
@@ -69,5 +67,13 @@ public class EventoResponse {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 }

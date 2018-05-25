@@ -2,6 +2,18 @@ package ar.com.sustentate.mw;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarScopes;
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.auth.AWSCredentials;
 import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
@@ -24,8 +36,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.*;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 public class WatsonConfiguration {
@@ -62,6 +79,8 @@ public class WatsonConfiguration {
 
     @Value("${ibm.watson.cloudant.password}")
     private String cloudantPassword;
+
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
 
     @Bean
     public VisualRecognition visualRecognition() {
@@ -100,7 +119,7 @@ public class WatsonConfiguration {
     }
 
     @Bean
-    public RestHighLevelClient createElasticSearchClient()  {
+    public RestHighLevelClient createElasticSearchClient() {
 
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
@@ -109,13 +128,47 @@ public class WatsonConfiguration {
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
                         new HttpHost(elasticSearchHost, Integer.parseInt(elasticSearchPort), "https"))
-                .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                    @Override
-                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-                    }
-                }));
+                        .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                            @Override
+                            public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                                return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                            }
+                        }));
 
         return client;
+    }
+
+    @Bean
+    public NetHttpTransport getTransport() throws GeneralSecurityException, IOException {
+        return GoogleNetHttpTransport.newTrustedTransport();
+    }
+
+    @Bean
+    public JacksonFactory getFactory() {
+        return JacksonFactory.getDefaultInstance();
+    }
+
+    @Bean
+    public Credential getCredentials(NetHttpTransport transport, JacksonFactory factory) throws IOException, GeneralSecurityException {
+        InputStream in = getClass().getClassLoader().getResourceAsStream("client_secret.json");
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(),
+                new InputStreamReader(in));
+
+        // Build flow and trigger user authorization request.
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                transport, factory, clientSecrets, SCOPES)
+                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File("credentials")))
+                .setAccessType("offline")
+                .build();
+
+        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+    }
+
+    @Bean
+    public Calendar getCalendar(Credential credential, JacksonFactory factory, NetHttpTransport transport) {
+        Calendar calendar = new Calendar.Builder(transport, factory, credential)
+                .setApplicationName("sustentatemw")
+                .build();
+        return calendar;
     }
 }

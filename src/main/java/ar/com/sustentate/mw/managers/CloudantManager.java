@@ -6,15 +6,12 @@ import com.cloudant.client.api.Database;
 import com.cloudant.client.api.views.AllDocsRequest;
 import com.cloudant.client.api.views.AllDocsRequestBuilder;
 import com.cloudant.client.api.views.AllDocsResponse;
-import com.ibm.watson.developer_cloud.discovery.v1.model.QueryResult;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,28 +50,50 @@ public class CloudantManager {
 
     }
 
-    public void saveElemento(ElementosResponse elementosResponse) {
+    public void saveElemento(ElementosModel elementosModel) {
         Database db = client.database("elementos", true);
         Map<String, Object> data = new HashMap<>();
         data.put("_id", String.valueOf(System.currentTimeMillis()));
-        data.put("producto", elementosResponse.getProducto() );
-        data.put("condicion", elementosResponse.getCondicion() );
-        data.put("comoHacerlo", elementosResponse.getComoHacerlo());
-        data.put("finalDate", elementosResponse.getFinalDate());
+        data.put("producto", elementosModel.getProducto() );
+        data.put("condicion", elementosModel.getCondicion() );
+        data.put("comoHacerlo", elementosModel.getComoHacerlo());
         db.post(data);
     }
 
-    public List<EventoResponse> getEventos(String lastId) {
-        List<EventoResponse> eventos = new ArrayList<>();
-        EventoResponse evento1 = new EventoResponse();
-        evento1.setTitle("Compostaje para todos");
-        evento1.setText("Sebas nos enseña a hacer compost en nuestros hogares");
-        evento1.setDate(new DateTime(2018,6,15,10,0));
-        evento1.setDateEnd(new DateTime(2018,6,15,11,0));
-        evento1.setPlace("Azcasubi y la via");
-        evento1.setImageUrl("");
-        evento1.setId(1000);
-        eventos.add(evento1);
+    public List<ElementosModel> getElementos() throws IOException {
+        Database db = client.database("elementos", true);
+        AllDocsRequestBuilder builder = db.getAllDocsRequestBuilder();
+        AllDocsRequest request = builder.includeDocs(true).build();
+        AllDocsResponse response = request.getResponse();
+        List<ElementosModel> elementos = response.getDocsAs(ElementosModel.class);
+        return elementos;
+    }
+
+    public void saveEventos(EventoResponse eventoResponse) {
+        Database db = client.database("eventos", true);
+        Map<String, Object> data = new HashMap<>();
+        data.put("_id", eventoResponse.getImageUrl());
+        data.put("title", eventoResponse.getTitle());
+        data.put("text", eventoResponse.getText() );
+        data.put("place", eventoResponse.getPlace());
+        data.put("imageUrl", eventoResponse.getImageUrl());
+        data.put("date", eventoResponse.getDate());
+        data.put("dateEnd", eventoResponse.getDateEnd());
+        data.put("googleId", eventoResponse.getGoogleId());
+        db.post(data);
+    }
+
+    public List<EventoResponse> getEventos(String lastId) throws IOException {
+        Database db = client.database("eventos", true);
+        AllDocsRequestBuilder builder = db.getAllDocsRequestBuilder();
+        AllDocsRequest request = builder.includeDocs(true).build();
+        AllDocsResponse response = request.getResponse();
+        List<EventoResponse> eventos = response.getDocsAs(EventoResponse.class);
         return eventos;
     }
+
+   public boolean doesEventExists(long id) {
+       Database db = client.database("eventos", true);
+       return db.contains(Long.valueOf(id).toString());
+   }
 }

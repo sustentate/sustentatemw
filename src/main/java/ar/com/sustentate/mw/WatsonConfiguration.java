@@ -113,7 +113,7 @@ public class WatsonConfiguration {
         return JacksonFactory.getDefaultInstance();
     }
 
-    @Bean
+ /*   @Bean
     public Credential getCredentials(NetHttpTransport transport, JacksonFactory factory) throws IOException, GeneralSecurityException {
         InputStream in = getClass().getClassLoader().getResourceAsStream("client_secret.json");
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(),
@@ -127,13 +127,13 @@ public class WatsonConfiguration {
                 .build();
 
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-    }
+    }*/
 
-    @Bean
+    /*@Bean
     public Calendar getCalendar(Credential credential, JacksonFactory factory, NetHttpTransport transport) {
         Calendar calendar = new Calendar.Builder(transport, factory, credential)
                 .setApplicationName("sustentatemw")
                 .build();
         return calendar;
-    }
+    }*/
 }

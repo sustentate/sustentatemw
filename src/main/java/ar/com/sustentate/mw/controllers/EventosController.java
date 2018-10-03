@@ -1,6 +1,6 @@
 package ar.com.sustentate.mw.controllers;
 
-import ar.com.sustentate.mw.managers.CalendarManager;
+//import ar.com.sustentate.mw.managers.CalendarManager;
 import ar.com.sustentate.mw.managers.CloudantManager;
 import ar.com.sustentate.mw.models.EcoTipResponse;
 import ar.com.sustentate.mw.models.EventoResponse;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@RestController
+/*@RestController
 public class EventosController {
     @Autowired
     private CloudantManager cloudantManager;
@@ -32,7 +32,7 @@ public class EventosController {
     OperationResponse sync() throws IOException {
         OperationResponse response = new OperationResponse();
         calendarManager.sync();
-        response.setStatus("OK");
+        //response.setStatus("OK");
         return response;
     }
-}
+}*/

@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-@Component
+/*@Component
 public class CalendarManager {
     @Autowired
     private Calendar calendar;
@@ -56,4 +56,4 @@ public class CalendarManager {
 
         });
     }
-}
+}*/

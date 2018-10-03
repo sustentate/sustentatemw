@@ -50,25 +50,6 @@ public class CloudantManager {
 
     }
 
-    public void saveElemento(ElementosModel elementosModel) {
-        Database db = client.database("elementos", true);
-        Map<String, Object> data = new HashMap<>();
-        data.put("_id", String.valueOf(System.currentTimeMillis()));
-        data.put("producto", elementosModel.getProducto() );
-        data.put("condicion", elementosModel.getCondicion() );
-        data.put("comoHacerlo", elementosModel.getComoHacerlo());
-        db.post(data);
-    }
-
-    public List<ElementosModel> getElementos() throws IOException {
-        Database db = client.database("elementos", true);
-        AllDocsRequestBuilder builder = db.getAllDocsRequestBuilder();
-        AllDocsRequest request = builder.includeDocs(true).build();
-        AllDocsResponse response = request.getResponse();
-        List<ElementosModel> elementos = response.getDocsAs(ElementosModel.class);
-        return elementos;
-    }
-
     public void saveEventos(EventoResponse eventoResponse) {
         Database db = client.database("eventos", true);
         Map<String, Object> data = new HashMap<>();

@@ -1,11 +1,6 @@
 package ar.com.sustentate.mw.managers;
 
 import ar.com.sustentate.mw.models.EventoResponse;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.Events;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

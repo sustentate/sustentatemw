@@ -2,18 +2,6 @@ package ar.com.sustentate.mw;
 
 import com.cloudant.client.api.ClientBuilder;
 import com.cloudant.client.api.CloudantClient;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.CalendarScopes;
 import com.ibm.cloud.objectstorage.ClientConfiguration;
 import com.ibm.cloud.objectstorage.auth.AWSCredentials;
 import com.ibm.cloud.objectstorage.auth.AWSStaticCredentialsProvider;
@@ -65,8 +53,6 @@ public class WatsonConfiguration {
     @Value("${ibm.watson.cloudant.password}")
     private String cloudantPassword;
 
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-
     @Bean
     public VisualRecognition visualRecognition() {
         VisualRecognition visualRecognition = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
@@ -102,38 +88,4 @@ public class WatsonConfiguration {
                 .build();
         return client;
     }
-
-    @Bean
-    public NetHttpTransport getTransport() throws GeneralSecurityException, IOException {
-        return GoogleNetHttpTransport.newTrustedTransport();
-    }
-
-    @Bean
-    public JacksonFactory getFactory() {
-        return JacksonFactory.getDefaultInstance();
-    }
-
- /*   @Bean
-    public Credential getCredentials(NetHttpTransport transport, JacksonFactory factory) throws IOException, GeneralSecurityException {
-        InputStream in = getClass().getClassLoader().getResourceAsStream("client_secret.json");
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(),
-                new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                transport, factory, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File("credentials")))
-                .setAccessType("offline")
-                .build();
-
-        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-    }*/
-
-    /*@Bean
-    public Calendar getCalendar(Credential credential, JacksonFactory factory, NetHttpTransport transport) {
-        Calendar calendar = new Calendar.Builder(transport, factory, credential)
-                .setApplicationName("sustentatemw")
-                .build();
-        return calendar;
-    }*/
 }

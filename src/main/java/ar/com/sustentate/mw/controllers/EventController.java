@@ -57,12 +57,14 @@ public class EventController {
 
     @PostMapping
     private ResponseEntity crearEvento(@Valid @RequestBody Event anEventToBeCreated) {
+        // TODO Segurizar
         eventRepository.save(anEventToBeCreated);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @PutMapping
     private ResponseEntity updateEvent(@Valid @RequestBody Event anUpdatedEvent) throws NoUpdatableFormatException {
+        // TODO Segurizar
         assertHasIdAndRev(anUpdatedEvent);
         eventRepository.update(anUpdatedEvent);
         return new ResponseEntity(HttpStatus.ACCEPTED);

@@ -10,6 +10,8 @@ import com.ibm.cloud.objectstorage.client.builder.AwsClientBuilder;
 import com.ibm.cloud.objectstorage.oauth.BasicIBMOAuthCredentials;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3ClientBuilder;
+import com.ibm.watson.developer_cloud.assistant.v2.Assistant;
+import com.ibm.watson.developer_cloud.service.security.IamOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -53,9 +55,25 @@ public class WatsonConfiguration {
     @Value("${ibm.watson.cloudant.password}")
     private String cloudantPassword;
 
+    @Value("${ibm.watson.assistant.username}")
+    private String assistantUsername;
+
+    @Value("${ibm.watson.assistant.password}")
+    private String assistantPassword;
+
+    @Value("${ibm.watson.assistant.endpoint}")
+    private String assistantEndpoint;
+
+    @Bean
+    public Assistant assistant() {
+        Assistant assistant = new Assistant("2018-09-20", assistantUsername, assistantPassword);
+        assistant.setEndPoint(assistantEndpoint);
+        return assistant;
+    }
+
     @Bean
     public VisualRecognition visualRecognition() {
-        VisualRecognition visualRecognition = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
+        VisualRecognition visualRecognition = new VisualRecognition("2018-03-19");
         visualRecognition.setApiKey(watsonApiKey);
         return visualRecognition;
     }

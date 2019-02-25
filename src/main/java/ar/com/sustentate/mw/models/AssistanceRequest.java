@@ -1,20 +1,19 @@
 package ar.com.sustentate.mw.models;
 
 public class AssistanceRequest {
-    private String conversationId;
+    private String sessionId;
     private String sentence;
     private String urlAttachment;
 
-
-    public String getConversationId() {
-        return conversationId;
+    public String getSessionId() {
+        return sessionId;
     }
 
     /* Identificador único de la conversacion. Se pueden intercambiar muchos dialogos
         para una misma conversación.
      */
-    public void setConversationId(String conversationId) {
-        this.conversationId = conversationId;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getSentence() {

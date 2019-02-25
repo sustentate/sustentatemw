@@ -4,6 +4,7 @@ public class AssistanceResponse {
     private String sentence;
     private String urlAttachment;
     private int status; // 0 OK
+    private String session;
 
     public String getSentence() {
         return sentence;
@@ -27,5 +28,13 @@ public class AssistanceResponse {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getSession() {
+        return session;
+    }
+
+    public void setSession(String session) {
+        this.session = session;
     }
 }

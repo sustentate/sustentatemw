@@ -105,7 +105,7 @@ public class AssistanceController {
         r.setSentence(responseText);
         r.setUrlAttachment(request.getUrlAttachment());
         r.setStatus(0); //Ok
-        r.setSession(request.getSessionId());
+        r.setSessionId(request.getSessionId());
         return r;
     }
 }

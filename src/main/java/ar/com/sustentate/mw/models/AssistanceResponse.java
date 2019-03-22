@@ -4,7 +4,7 @@ public class AssistanceResponse {
     private String sentence;
     private String urlAttachment;
     private int status; // 0 OK
-    private String session;
+    private String sessionId;
 
     public String getSentence() {
         return sentence;
@@ -30,11 +30,11 @@ public class AssistanceResponse {
         this.status = status;
     }
 
-    public String getSession() {
-        return session;
+    public String getSessionId() {
+        return sessionId;
     }
 
-    public void setSession(String session) {
-        this.session = session;
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

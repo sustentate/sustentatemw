@@ -16,7 +16,7 @@ public class Event {
 
     private boolean published;
 
-    private boolean promoted;
+    //private boolean promoted;
 
     @NotNull
     private String address;
@@ -33,14 +33,13 @@ public class Event {
     @NotNull
     private EventType type;
 
-    @NotNull
     private Contact contact;
 
     public Event(String aTitle, String aDescription, String anAddress, String aLink, Date aDateTime, EventType type, Contact aContact, Long price) {
         this.title = aTitle;
         this.description = aDescription;
         this.published = false;
-        this.promoted = false;
+        //this.promoted = false;
         this.address = anAddress;
         this.link = aLink;
         this.startDateTime = aDateTime;
@@ -60,9 +59,9 @@ public class Event {
         return this._rev;
     }
 
-    public boolean getPromoted() {
+    /*public boolean getPromoted() {
         return this.published;
-    }
+    }*/
 
     public String getTitle() {
         return title;
@@ -73,7 +72,7 @@ public class Event {
     }
 
     public boolean isPublished() {
-        return promoted;
+        return published;
     }
 
     public String getAddress() {

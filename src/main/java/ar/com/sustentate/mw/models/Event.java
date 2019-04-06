@@ -33,6 +33,8 @@ public class Event {
     @NotNull
     private EventType type;
 
+    private Boolean isDeleted;
+
     private Contact contact;
 
     public Event(String aTitle, String aDescription, String anAddress, String aLink, Date aDateTime, EventType type, Contact aContact, Long price) {
@@ -97,5 +99,13 @@ public class Event {
 
     public Long getPrice() {
         return price;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 }

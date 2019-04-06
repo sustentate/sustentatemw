@@ -28,6 +28,7 @@ import static com.cloudant.client.api.query.Expression.exists;
 import static com.cloudant.client.api.query.Expression.regex;
 import static com.cloudant.client.api.query.Operation.and;
 import static com.cloudant.client.api.query.Operation.or;
+import static com.cloudant.client.api.query.Expression.ne;
 
 @RestController
 @RequestMapping("/events")
@@ -54,6 +55,7 @@ public class EventController {
         Selector selector = and(promoted.map(searchTerm -> (Selector) eq("promoted", searchTerm)).orElse(alwaysTrueSelector),
                                 published.map(searchTerm -> (Selector) eq("published", searchTerm)).orElse(alwaysTrueSelector),
                                 type.map(searchTerm -> (Selector) eq("type", searchTerm.toString())).orElse(alwaysTrueSelector),
+                                or(exists("isDeleted", false),eq("isDeleted", false)),
 
                                 or(search.map(searchTerm -> (Selector) regex("title", ".*" + searchTerm + ".*")).orElse(alwaysTrueSelector),
                                    search.map(searchTerm -> (Selector) regex("description", ".*" + searchTerm + ".*")).orElse(alwaysTrueSelector)));
@@ -112,8 +114,22 @@ public class EventController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    private ResponseEntity deleteEvent(@PathVariable String id) {
+        Event event = eventRepository.findByIdAs(Event.class, id);
+        if (event == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        event.setIsDeleted(true);
+        eventRepository.update(event);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     private Event getEvent(@PathVariable String id) {
+        Event event = eventRepository.findByIdAs(Event.class, id);
+        if (event == null || event.getIsDeleted().equals(true))
+            return null;
         return eventRepository.findByIdAs(Event.class, id);
     }
 }

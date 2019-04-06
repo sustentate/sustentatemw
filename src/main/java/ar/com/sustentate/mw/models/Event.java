@@ -35,6 +35,8 @@ public class Event {
     @NotNull
     private EventType type;
 
+    private Boolean isDeleted;
+
     private Contact contact;
 
     public Event(String aTitle, String aDescription, String imageUrl, String anAddress, String aLink, Date aDateTime, EventType type, Contact aContact, Long price) {
@@ -103,7 +105,17 @@ public class Event {
     public Long getPrice() {
         return price;
     }
+<<<<<<< HEAD
     public void setUrlImage(String url) {
     	this.imageUrl = url;
+=======
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+>>>>>>> 433f4abac93226ed53b589347c6c32d8042abd5d
     }
 }

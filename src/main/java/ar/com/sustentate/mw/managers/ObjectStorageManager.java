@@ -14,8 +14,9 @@ public class ObjectStorageManager {
     @Autowired
     private AmazonS3 client;
 
-    public void saveImage(File image) {
+    public String saveImage(File image, String bucketName) {
        // List<Bucket> buckets = client.listBuckets();
-        client.putObject("recognition", image.getName(), image);
+        client.putObject(bucketName, image.getName(), image);
+        return client.getUrl(bucketName, image.getName()).toString();
     }
 }

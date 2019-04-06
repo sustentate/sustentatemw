@@ -1,17 +1,25 @@
 package ar.com.sustentate.mw.controllers;
 
 import ar.com.sustentate.mw.exceptions.NoUpdatableFormatException;
+import ar.com.sustentate.mw.managers.ObjectStorageManager;
 import ar.com.sustentate.mw.models.Event;
 import ar.com.sustentate.mw.models.EventType;
 import ar.com.sustentate.mw.repositories.Repository;
 import com.cloudant.client.api.CloudantClient;
 import com.cloudant.client.api.query.*;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +34,14 @@ import static com.cloudant.client.api.query.Operation.or;
 public class EventController {
 
     private final Repository<Event> eventRepository;
+    private ObjectStorageManager objectStorageManager;
 
     @Autowired
-    public EventController(CloudantClient cloudantClient) {
+    public EventController(CloudantClient cloudantClient, ObjectStorageManager objectStorageManager1) {
         this.eventRepository = new Repository<>(new ar.com.sustentate.mw.repositories.Database(cloudantClient.database("eventos", true)));
+        this.objectStorageManager = objectStorageManager1;
     }
+
 
     @GetMapping
     private List<Event> allEvents(@RequestParam Optional<Boolean> promoted,
@@ -60,6 +71,31 @@ public class EventController {
         // TODO Segurizar
         eventRepository.save(anEventToBeCreated);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+    @PostMapping("/{id}/image")
+    private ResponseEntity attachImage(@PathVariable String id, @RequestBody String imageEncoded) throws IOException {
+    	
+    	Event event = eventRepository.findByIdAs(Event.class, id);
+    	
+    	if(event == null) {
+    		return new ResponseEntity(HttpStatus.NOT_FOUND);
+    	}
+    	
+    	byte[] imageContents = Base64.decodeBase64(imageEncoded);
+
+        File tempFile = File.createTempFile("event", ".jpeg");
+        OutputStream outputStream = new FileOutputStream(tempFile);
+        outputStream.write(imageContents);
+        outputStream.close();
+        try {
+        	String url = objectStorageManager.saveImage(tempFile, "agenda-event");
+        	event.setUrlImage(url);
+        	eventRepository.update(event);
+        }catch(Exception e){
+        	return null;
+        }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    	
     }
 
     @PutMapping

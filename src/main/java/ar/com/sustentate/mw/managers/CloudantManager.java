@@ -50,20 +50,6 @@ public class CloudantManager {
 
     }
 
-    public void saveEventos(EventoResponse eventoResponse) {
-        Database db = client.database("eventos", true);
-        Map<String, Object> data = new HashMap<>();
-        data.put("_id", eventoResponse.getImageUrl());
-        data.put("title", eventoResponse.getTitle());
-        data.put("text", eventoResponse.getText() );
-        data.put("place", eventoResponse.getPlace());
-        data.put("imageUrl", eventoResponse.getImageUrl());
-        data.put("date", eventoResponse.getDate());
-        data.put("dateEnd", eventoResponse.getDateEnd());
-        data.put("googleId", eventoResponse.getGoogleId());
-        db.post(data);
-    }
-
     public List<EventoResponse> getEventos(String lastId) throws IOException {
         Database db = client.database("eventos", true);
         AllDocsRequestBuilder builder = db.getAllDocsRequestBuilder();

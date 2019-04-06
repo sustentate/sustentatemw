@@ -16,6 +16,8 @@ public class Event {
 
     private boolean published;
 
+    private String imageUrl;
+
     //private boolean promoted;
 
     @NotNull
@@ -35,11 +37,12 @@ public class Event {
 
     private Contact contact;
 
-    public Event(String aTitle, String aDescription, String anAddress, String aLink, Date aDateTime, EventType type, Contact aContact, Long price) {
+    public Event(String aTitle, String aDescription, String imageUrl, String anAddress, String aLink, Date aDateTime, EventType type, Contact aContact, Long price) {
         this.title = aTitle;
         this.description = aDescription;
         this.published = false;
         //this.promoted = false;
+        this.imageUrl = imageUrl;
         this.address = anAddress;
         this.link = aLink;
         this.startDateTime = aDateTime;
@@ -62,6 +65,8 @@ public class Event {
     /*public boolean getPromoted() {
         return this.published;
     }*/
+
+    public String getImageUrl() { return imageUrl; }
 
     public String getTitle() {
         return title;
@@ -97,5 +102,8 @@ public class Event {
 
     public Long getPrice() {
         return price;
+    }
+    public void setUrlImage(String url) {
+    	this.imageUrl = url;
     }
 }

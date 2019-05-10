@@ -105,10 +105,11 @@ public class Event {
     public Long getPrice() {
         return price;
     }
-<<<<<<< HEAD
+
     public void setUrlImage(String url) {
     	this.imageUrl = url;
-=======
+    }
+    
 
     public Boolean getIsDeleted() {
         return isDeleted;
@@ -116,6 +117,5 @@ public class Event {
 
     public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
->>>>>>> 433f4abac93226ed53b589347c6c32d8042abd5d
     }
 }

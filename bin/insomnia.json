@@ -1,0 +1,139 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2018-11-17T19:05:34.903Z",
+	"__export_source": "insomnia.desktop.app:v6.2.0",
+	"resources": [
+		{
+			"_id": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"created": 1542478647724,
+			"description": "",
+			"modified": 1542478647724,
+			"name": "Sustentate Middleware",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_0f1751c1c618486f9fa86917b7732e16",
+			"color": null,
+			"created": 1542478647771,
+			"data": {},
+			"isPrivate": false,
+			"metaSortKey": 1542478647771,
+			"modified": 1542481489331,
+			"name": "New Environment",
+			"parentId": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_a75a39ff5b844edcb3522f6dae34601d",
+			"cookies": [],
+			"created": 1542478647782,
+			"modified": 1542478647782,
+			"name": "Default Jar",
+			"parentId": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "req_e032782efd314bd58cac770ccf20e49a",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"conversationId\" : \"\",\n\t\"sentence\" : \"chau\"\n}"
+			},
+			"created": 1542478891440,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_afe6d2b937c3449882880df9c815835a",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1542478891440,
+			"method": "POST",
+			"modified": 1542480967870,
+			"name": "Assistant",
+			"parameters": [],
+			"parentId": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url  }}/chat",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9d8bcd69732b4423bd51e2bc4a3c1542",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"title\": \"Curso compostaje\",\n\t\"description\": \"Aprenda a hacer compostaje\",\n\t\"address\": \"Avenida siempre viva 123\",\n\t\"price\": 0,\n\t\"link\": \"http://www.google.com\",\n\t\"startDateTime\": \"2018-01-01\",\n\t\"type\": \"workshop\",\n\t\"contact\": {\n\t\t\"id\": 1\n\t}\n}"
+			},
+			"created": 1542480839387,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_9549223493394f409b3263f146cdee61",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"isPrivate": false,
+			"metaSortKey": -1542480839387,
+			"method": "POST",
+			"modified": 1542481313210,
+			"name": "Crear evento",
+			"parameters": [],
+			"parentId": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url  }}/events",
+			"_type": "request"
+		},
+		{
+			"_id": "req_61b9cb2723114e7cb1a53a1922582a74",
+			"authentication": {},
+			"body": {},
+			"created": 1542481303005,
+			"description": "",
+			"headers": [],
+			"isPrivate": false,
+			"metaSortKey": -1542481303005,
+			"method": "GET",
+			"modified": 1542481489668,
+			"name": "Traer eventos",
+			"parameters": [],
+			"parentId": "wrk_61be9a28f6de4840834de43a6d3f009e",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingMaxTimelineDataSize": 1000,
+			"settingRebuildPath": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "{{ base_url  }}/events",
+			"_type": "request"
+		},
+		{
+			"_id": "env_7749fb1c1cba4fc7adfb8cbc79e21512",
+			"color": null,
+			"created": 1542479585280,
+			"data": {
+				"base_url": "http://localhost:8080"
+			},
+			"isPrivate": false,
+			"metaSortKey": 1542479585280,
+			"modified": 1542481460771,
+			"name": "local dev",
+			"parentId": "env_0f1751c1c618486f9fa86917b7732e16",
+			"_type": "environment"
+		}
+	]
+}

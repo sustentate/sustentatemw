@@ -23,7 +23,14 @@ hs_err_pid*
 
 
 .idea
+.project
+.classpath
+
 target
+
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.jdt.core.prefs 
+.settings/org.eclipse.m2e.core.prefs 
 
 src/main/resources/application.properties
 src/main/resources/client_secret.json
